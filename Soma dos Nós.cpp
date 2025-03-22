@@ -14,10 +14,11 @@ int soma(list<int> lista) {
 int main() {
     list<int> lista;
     int N;
-    
-    if(N!=0){
-        cin>>N;
+
+    cin>>N;
+    while(N!=0){
         lista.push_back(N);
+        cin>>N;
     }
     cout << soma(lista) << endl;
 
