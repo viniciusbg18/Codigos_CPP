@@ -25,6 +25,6 @@ int main()
 	int n = 4;
 	Item itens = [{7, 42}, {3, 12}, {4, 40}, {5, 25}];
 	
-	cout<<sol(itens, 0, n, cap)
+	cout<<sol(itens, 0, n, cap);
 	return 0;
 }
