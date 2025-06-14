@@ -1,17 +1,11 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-/*struct data_type{
-	int info;
-}; */
-
 struct node {
-	int info; // ou data_typeinfo
-	node * left; // ponteiros que são da mesma strutura de árvore
+	int info;
+	node * left;
 	node * right;
 };
-
-//typedef node * nodeptr;
 
 void insert(node * &curr, int info){
 	if(curr == NULL){
@@ -19,61 +13,124 @@ void insert(node * &curr, int info){
 		curr->info = info;
 		curr->left = NULL;
 		curr->right = NULL;
-	}
-	else{
+	} else {
 		if(info < curr->info){
 			insert(curr->left, info);
-		}
-		else{
-			insert(curr->right, info)
+		} else {
+			insert(curr->right, info);
 		}
 	}
 }
 
-node * search(node * curr, int info){
+node * search (node * curr, int info){
 	if(curr == NULL){
 		return NULL;
-	}
-	else{
+	} else {
 		if(curr->info == info){
 			return curr;
-		}
-		else{
+		} else {
 			if(info < curr->info){
 				return search(curr->left, info);
-			}
-			else{
+			} else {
 				return search(curr->right, info);
 			}
 		}
 	}
+	
 }
 
-int main()
-{
+node * repoint_less(node * & curr){
+	if(curr->left == NULL){
+		node * aux = curr;
+		curr = curr->right;
+		return aux;
+	} else {
+		return repoint_less(curr->left);
+	}
+}
+
+bool remove (node * &curr, int info){
+	if(curr == NULL){
+		return false;
+	} else {
+		if(curr->info == info){
+			node * aux = curr;
+			if(curr->left == NULL){
+				curr = curr->right;
+			} else if(curr->right == NULL){
+				curr = curr->left;
+			} else {
+				aux = repoint_less(curr->right);
+				curr->info = aux->info;	
+			}
+			delete aux;
+			aux = NULL;
+			return true;
+		} else {
+			if(info < curr->info){
+				return remove(curr->left, info);
+			} else {
+				return remove(curr->right, info);
+			}
+		}
+	}
+}
+
+void destruct(node * & curr){
+	if(curr != NULL){
+		destruct(curr->left);
+		destruct(curr->right);
+		delete curr;
+	}
+}
+
+int main(){
+	
 	node * root = NULL;
 	
-	insert(root , 10);
-	
+	insert(root, 10);
 	insert(root, 12);
-	
 	insert(root, 6);
-	
 	insert(root, 33);
 	
 	node * result = search(root, 11);
-	
-	if(result == NULL){
-		cout << "Elemento nao encontrado" << endl;
-	}
-	else{
+	if(result == NULL) {
+		cout << 11 << " nao encontrado" << endl;
+	} else {
 		cout << result->info << endl;
 	}
-	/*node * resultado = new node; // criando uma memoria alocada dinamicamente => retorna um ponteiro 
 	
-	(*resultadoinfo = 88;
-	(*resultado).left = new node;
-	(*resultado).right = new node;
-	*/
+	result = search(root, 6);
+	if(result == NULL) {
+		cout << 6 << " nao encontrado" << endl;
+	} else {
+		cout << result->info << " encontrado" << endl;
+	}
+	
+	if(remove(root, 11)){
+		cout << 11 << " removido com sucesso" << endl;
+	} else {
+		cout << 11 << " nao pode ser removido" << endl;
+	}
+	
+	if(remove(root, 6)){
+		cout << 6 << " removido com sucesso" << endl;
+	} else {
+		cout << 6 << " nao pode ser removido" << endl;
+	}
+	
+	result = search(root, 6);
+	if(result == NULL) {
+		cout << 6 << " nao encontrado" << endl;
+	} else {
+		cout << result->info << " encontrado" << endl;
+	}
 	return 0;
 }
+
+
+
+
+
+
+
