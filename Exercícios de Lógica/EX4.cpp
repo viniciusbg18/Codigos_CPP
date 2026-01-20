@@ -10,4 +10,5 @@ int main(){
 	media = soma / 4;
 	cout<<"Media = "<<media<<endl;
 	return 0;
+	
 }
